@@ -229,3 +229,10 @@ footer {
   min-width: 300px; /* Prevents videos from becoming too small */
   flex-grow: 1;
 }
+
+/* Center all images */
+img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%; /* Ensures responsiveness */
+}
