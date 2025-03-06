@@ -216,3 +216,16 @@ footer {
   font-size: 0.8rem;
   color: #888;
 }
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between videos */
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+.video-container video {
+  max-width: 30%; /* Ensures three videos fit on larger screens */
+  min-width: 300px; /* Prevents videos from becoming too small */
+  flex-grow: 1;
+}
