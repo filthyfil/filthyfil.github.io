@@ -85,7 +85,6 @@ body {
   position: relative;
   font-size: 4rem;
   color: #0ff;
-  text-transform: uppercase;
   animation: glitch 2.5s infinite;
   font-family: 'IBM Plex Mono', monospace; 
   font-weight: bold; /* Makes it look more like a terminal */
@@ -219,16 +218,17 @@ footer {
 
 .video-container {
   display: flex;
-  justify-content: center;
-  gap: 20px; /* Space between videos */
-  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  justify-content: center; /* Center videos */
+  gap: 20px; /* Adds space between videos */
+  flex-wrap: wrap; /* Allows stacking on smaller screens */
 }
 
 .video-container video {
-  max-width: 30%; /* Ensures three videos fit on larger screens */
+  max-width: 30%; /* Ensures three videos fit side by side */
   min-width: 300px; /* Prevents videos from becoming too small */
   flex-grow: 1;
 }
+
 
 /* Center all images */
 img {
