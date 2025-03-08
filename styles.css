@@ -11,18 +11,20 @@ body {
   color: #fff;
   font-family: 'Courier New', Courier, monospace;
   line-height: 1.6;
+  /* Remove overflow: hidden; */
 }
 
 /* CRT Screen Effect */
 .crt-screen {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100vh; /* Allow scrolling */
   background: radial-gradient(circle, #001, #000);
   padding: 20px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
 }
+
 
 /* Scanlines */
 .scanlines {
@@ -43,8 +45,12 @@ body {
 }
 
 @keyframes scanline {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(100%); }
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
 }
 
 /* Flickering Effect */
@@ -81,7 +87,7 @@ body {
   color: #0ff;
   animation: glitch 2.5s infinite;
   font-family: 'IBM Plex Mono', monospace; 
-  font-weight: bold;
+  font-weight: bold; /* Makes it look more like a terminal */
 }
 
 .glitch::before,
@@ -106,6 +112,24 @@ body {
 }
 
 @keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitch-top {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, -2px); }
+  40% { transform: translate(-2px, 2px); }
+  60% { transform: translate(2px, -2px); }
+  80% { transform: translate(2px, 2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitch-bottom {
   0% { transform: translate(0); }
   20% { transform: translate(-2px, 2px); }
   40% { transform: translate(-2px, -2px); }
@@ -192,25 +216,25 @@ footer {
   color: #888;
 }
 
-/* Video Styling */
 .video-container {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  justify-content: center; /* Center videos */
+  gap: 20px; /* Adds space between videos */
+  flex-wrap: wrap; /* Allows stacking on smaller screens */
 }
 
 .video-container video {
-  max-width: 30%;
-  min-width: 300px;
+  max-width: 30%; /* Ensures three videos fit side by side */
+  min-width: 300px; /* Prevents videos from becoming too small */
   flex-grow: 1;
 }
+
 
 /* Center all images */
 img {
   display: block;
   margin: 0 auto;
-  max-width: 100%;
+  max-width: 100%; /* Ensures responsiveness */
 }
 
 /* Glitching Brown University Bear */
