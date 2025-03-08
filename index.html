@@ -5,10 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Filip Jasionek - Personal Website</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Container for the bear */
+    .bear-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 150px;
+      height: 150px;
+    }
+
+    /* Transparent bear image */
+    .pixel-bear {
+      width: 100%;
+      height: 100%;
+      opacity: 0.8; /* Slight transparency */
+      transition: all 0.2s ease-in-out;
+      filter: contrast(1.2) brightness(0.9);
+      animation: glitch 3s infinite ease-in-out alternate;
+    }
+
+    /* Glitch Effect */
+    @keyframes glitch {
+      0% { transform: none; filter: contrast(1.2) brightness(0.9); }
+      25% { transform: scaleX(1.1) skewX(2deg); filter: hue-rotate(10deg); }
+      50% { transform: scaleY(1.05) translateX(-2px); filter: contrast(1.4) brightness(1.1); }
+      75% { transform: scaleX(1.1) skewX(-2deg) translateY(-3px); filter: hue-rotate(-10deg); }
+      100% { transform: none; filter: contrast(1.2) brightness(0.9); }
+    }
+
+    /* Extra Randomized Glitch Effect */
+    .pixel-bear::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('pagesprojects/images/brown-bear.png');
+      opacity: 0.2;
+      mix-blend-mode: difference;
+      transform: translateX(2px) translateY(-2px);
+      animation: glitch2 2.5s infinite ease-in-out alternate;
+    }
+
+    @keyframes glitch2 {
+      0% { transform: translateX(0px) translateY(0px); opacity: 0.2; }
+      30% { transform: translateX(-4px) translateY(2px); opacity: 0.4; }
+      60% { transform: translateX(3px) translateY(-3px); opacity: 0.3; }
+      100% { transform: translateX(0px) translateY(0px); opacity: 0.2; }
+    }
+  </style>
 </head>
 <body>
   <!-- Pixelated Landscape Background -->
   <div class="pixel-landscape"></div>
+
+  <!-- Glitching Transparent Brown University Bear -->
+  <div class="bear-container">
+    <img src="pagesprojects/images/brown-bear.png" alt="Brown University Bear" class="pixel-bear">
+  </div>
 
   <!-- CRT Screen Effect -->
   <div class="crt-screen">
@@ -22,14 +76,16 @@
         
         <p style="color: #009100;">the greatest way to live with honor [...] is to be what we pretend to be.
           <br> <br> - Socrates <br> </p>
-        <p class="tagline">   </p>
+        <p class="tagline"></p>
       </header>
       <main>
         <!-- About Section -->
         <section class="about">
           <h2>about me</h2>
-          
-          <p style="color: #ffffff;">my name is filip, and i like math, programming, robots, and animatronics. i also like to paint, play warcraft 3 and world of warcraft. gorillaz, arctic monkeys, tyler the creator, misfits, housecat. </p>
+          <p style="color: #ffffff;">
+            my name is filip, and i like math, programming, robots, and animatronics. i also like to paint, play warcraft 3 and world of warcraft. 
+            gorillaz, arctic monkeys, tyler the creator, misfits, housecat.
+          </p>
         </section>
 
         <!-- Projects Section -->
@@ -39,7 +95,7 @@
             <li><a href="pagesprojects/bipedal-robot-dev.html">Project: Bipedal Robot</a></li>
             <li><a href="pagesprojects/llm.html">Project: LLM Experiments</a></li>
           </ul>
-        
+
           <h2>currently working on... (no documentation yet)</h2>
           <ul>
             <li><a href="#">Custom Programming Language</a></li>
