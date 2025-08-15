@@ -1,121 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Filip Jasionek - Personal Website</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Container for the bear */
-    .bear-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 150px;
-      height: 150px;
-    }
-
-    /* Transparent bear image */
-    .pixel-bear {
-      width: 100%;
-      height: 100%;
-      opacity: 0.8; /* Slight transparency */
-      transition: all 0.2s ease-in-out;
-      filter: contrast(1.2) brightness(0.9);
-      animation: glitch 3s infinite ease-in-out alternate;
-    }
-
-    /* Glitch Effect */
-    @keyframes glitch {
-      0% { transform: none; filter: contrast(1.2) brightness(0.9); }
-      25% { transform: scaleX(1.1) skewX(2deg); filter: hue-rotate(10deg); }
-      50% { transform: scaleY(1.05) translateX(-2px); filter: contrast(1.4) brightness(1.1); }
-      75% { transform: scaleX(1.1) skewX(-2deg) translateY(-3px); filter: hue-rotate(-10deg); }
-      100% { transform: none; filter: contrast(1.2) brightness(0.9); }
-    }
-
-    /* Extra Randomized Glitch Effect */
-    .pixel-bear::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: url('pagesprojects/images/brown-bear.png');
-      opacity: 0.2;
-      mix-blend-mode: difference;
-      transform: translateX(2px) translateY(-2px);
-      animation: glitch2 2.5s infinite ease-in-out alternate;
-    }
-
-    @keyframes glitch2 {
-      0% { transform: translateX(0px) translateY(0px); opacity: 0.2; }
-      30% { transform: translateX(-4px) translateY(2px); opacity: 0.4; }
-      60% { transform: translateX(3px) translateY(-3px); opacity: 0.3; }
-      100% { transform: translateX(0px) translateY(0px); opacity: 0.2; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filip Jasionek // Game of Life</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'VT323', monospace;
+            background-color: #0a0a0a;
+            color: #fafafa;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            background:
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.4) 0px, rgba(0,0,0,0.4) 1px, transparent 1px, transparent 2px),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0px, rgba(255, 255, 255, 0.05) 1px, transparent 1px, transparent 4px);
+            animation: flicker 0.15s infinite;
+        }
+        .crt-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
+            box-shadow: inset 0 0 120px 60px rgba(0, 0, 0, 0.5);
+        }
+        @keyframes flicker {
+            0% { opacity: 0.95; }
+            50% { opacity: 0.9; }
+            100% { opacity: 0.95; }
+        }
+        .glass-panel {
+            background-color: rgba(10, 10, 20, 0.4);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(200, 200, 255, 0.2);
+            box-shadow: 0 0 20px rgba(100, 100, 255, 0.15);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        .content-section {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 3;
+        }
+        .content-section.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .project-card img, .project-card video {
+            filter: grayscale(1) brightness(0.8) contrast(1.2);
+            transition: all 0.3s ease;
+        }
+        .project-card:hover img, .project-card:hover video {
+            filter: grayscale(0.2) brightness(1) contrast(1);
+        }
+        .terminal-text::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ff55a3;
+        }
+        .hover\:text-cyan-300:hover {
+            color: #67e8f9;
+        }
+        .text-outline {
+            text-shadow:
+                -1px -1px 0 #000,  
+                 1px -1px 0 #000,
+                -1px  1px 0 #000,
+                 1px  1px 0 #000;
+        }
+    </style>
 </head>
 <body>
-  <!-- Pixelated Landscape Background -->
-  <div class="pixel-landscape"></div>
+    <canvas id="bg-canvas"></canvas>
+    <div class="crt-glow"></div>
+    <div class="crt-overlay"></div>
 
-  <!-- Glitching Transparent Brown University Bear -->
-  <div class="bear-container">
-    <img src="pagesprojects/images/brown-bear.png" alt="Brown University Bear" class="pixel-bear">
-  </div>
+    <div class="absolute top-0 left-0 w-full h-full p-4 sm:p-8 flex flex-col justify-between z-2">
+        <header class="flex justify-between items-center w-full max-w-7xl mx-auto">
+            <h1 class="text-2xl sm:text-3xl tracking-widest">[GAME OF LIFE]</h1>
+            <nav id="main-nav" class="flex space-x-4 sm:space-x-6 text-sm sm:text-base">
+                <a href="#about" class="hover:text-cyan-300 transition-colors duration-300">[ABOUT]</a>
+                <a href="#projects" class="hover:text-cyan-300 transition-colors duration-300">[PROJECTS]</a>
+                <a href="#contact" class="hover:text-cyan-300 transition-colors duration-300">[CONTACT]</a>
+            </nav>
+        </header>
 
-  <!-- CRT Screen Effect -->
-  <div class="crt-screen">
-    <div class="scanlines"></div>
-    <div class="content">
-      <header>
-        <!-- Glitchy Header with Blinking Cursor -->
-        <h1 class="glitch" data-text="pyrate">
-          pyrate
-        </h1>
-        
-        <p style="color: #009100;">the greatest way to live with honor [...] is to be what we pretend to be.
-          <br> <br> - Socrates <br> </p>
-        <p class="tagline"></p>
-      </header>
-      <main>
-        <!-- About Section -->
-        <section class="about">
-          <h2>about me</h2>
-          <p style="color: #ffffff;">
-            my name is filip, and i like math, programming, robots, and animatronics. i also like to paint, play warcraft 3 and world of warcraft. 
-            gorillaz, arctic monkeys, tyler the creator, misfits, housecat.
-          </p>
-        </section>
+        <div class="text-center">
+            <h2 class="text-4xl sm:text-6xl font-bold mb-2 text-outline">FILIP JASIONEK</h2>
+            <p class="text-lg sm:text-2xl terminal-text text-outline">grid's weird today</p>
+        </div>
 
-        <!-- Projects Section -->
-        <section class="projects">
-          <h2>cool projects</h2>
-          <ul>
-            <li><a href="pagesprojects/bipedal-robot-dev.html">Project: Bipedal Robot</a></li>
-            <li><a href="pagesprojects/llm.html">Project: LLM Experiments</a></li>
-          </ul>
-
-          <h2>currently working on... (no documentation yet)</h2>
-          <ul>
-            <li><a href="#">Custom Programming Language</a></li>
-            <li><a href="#">16-bit Computing Platform</a></li>
-          </ul>
-
-          <h2>paintings</h2>
-          <ul>
-            <li><a href="pagesprojects/paintings.html">Paintings</a></li>
-          </ul>
-        </section>
-
-        <!-- Contact Section -->
-        <section class="contact">
-          <h2>contact</h2>
-          <p>email: <a href="mailto:filjasionek@gmail.com">filjasionek@gmail.com</a></p>
-          <p>social: <a href="https://github.com/filthyfil">gitHub</a> | <a href="https://www.instagram.com/filjasionek/">Instagram</a></p>
-        </section>
-      </main>
+        <footer class="text-center text-xs text-gray-400 w-full max-w-7xl mx-auto">
+            <p>SYSTEM.VERSION_17.2 // CLASSIC RULES</p>
+        </footer>
     </div>
-  </div>
+
+    <section id="about" class="content-section glass-panel rounded-lg p-6 sm:p-8">
+        <div class="close-btn" onclick="closeAllSections()">[X]</div>
+        <h3 class="text-2xl sm:text-3xl mb-4">[BOOT_LOADER: PHILOSOPHY.MD]</h3>
+        
+        <p class="text-base sm:text-lg leading-relaxed">
+            i think one of the most potent ideas in the history of ever is plato's 
+            allegory of the cave. it reminds me that everything of reality may be a 
+            shadow of a much larger mechanism. what i perceive through my senses only 
+            scratch a much deeper structure: the true state space. because of this, i
+            learn that greedy optimization techniques are actually counter-productive;
+            the greatest value does not come from working robotically on established "best
+            values" of my time. instead, pick up the guitar, or whatever hobby, it may
+            reveal itself to be the best thing i've every done.
+            <br><br>
+            conway's game of life kind of shows this too (in truth, it is just one of my
+            favorite things in computer science). if you are seeking stability, you can find 
+            stable configurations quite easily: a 2x2 square. perhaps you see one on screen by now. 
+            this works, but can you imagine 
+            boring life would be if it were just 2x2 squares? find cool configurations and you
+            can fill the entire grid from nothing given enough time ticks. it's hard to find them,
+            but you can. https://www.youtube.com/watch?v=C2vgICfQawE
+            <br><br>
+            just do it!
+        </p>
+    </section>
+
+    <section id="projects" class="content-section glass-panel rounded-lg p-6 sm:p-8">
+        <div class="close-btn" onclick="closeAllSections()">[X]</div>
+        <h3 class="text-2xl sm:text-3xl mb-6">[LOAD: ./PROJECTS/*]</h3>
+        <h3 class="text-2xl sm:text-3xl mb-6">[please email me for more info! happy to talk]</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <div class="project-card glass-panel p-4 rounded-md group">
+                <img src="https://placehold.co/600x400/000000/ff55a3?text=Bipedal+Robot" alt="Bipedal Robot" class="w-full h-40 object-cover rounded mb-2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0a190f/ff55a3?text=Image+Error';">
+                <h4 class="text-lg font-bold">Bipedal Robot</h4>
+                <p class="text-sm">a walking machine, from cad and simulation to reinforcement learning.</p>
+            </div>
+            <div class="project-card glass-panel p-4 rounded-md group">
+                <img src="http://googleusercontent.com/file_content/2" alt="Compiler Project" class="w-full h-40 object-cover rounded mb-2">
+                <h4 class="text-lg font-bold">Compiler Development</h4>
+                <p class="text-sm">a custom-built compiler for a custom-built 16 bit platform.</p>
+            </div>
+            <div class="project-card glass-panel p-4 rounded-md group">
+                <img src="https://placehold.co/600x400/000000/f2ff00?text=GPT-2" alt="GPT-2 from Scratch" class="w-full h-40 object-cover rounded mb-2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0a190f/f2ff00?text=Image+Error';">
+                <h4 class="text-lg font-bold">GPT-2 From Scratch</h4>
+                <p class="text-sm">a reimplementation of the gpt-2 architecture</p>
+            </div>
+            <div class="project-card glass-panel p-4 rounded-md group">
+               <img src="https://placehold.co/600x400/000000/00ff41?text=More+Projects" alt="More Projects" class="w-full h-40 object-cover rounded mb-2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0a190f/00ff41?text=Image+Error';">
+                <h4 class="text-lg font-bold">Future Endeavors</h4>
+                <p class="text-sm">and more...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="content-section glass-panel rounded-lg p-6 sm:p-8 text-center">
+        <div class="close-btn" onclick="closeAllSections()">[X]</div>
+        <h3 class="text-2xl sm:text-3xl mb-4">[ESTABLISH_CONNECTION]</h3>
+        <p class="mb-4">Let's build the future, one component at a time.</p>
+        <a href="mailto:email@example.com" class="text-yellow-300 text-lg hover:text-white transition-colors duration-300">[SEND_TRANSMISSION]</a>
+    </section>
+
+    <script>
+        // --- Three.js Scene Setup ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.position.set(0, 0, 30); // Positioned for a top-down view
+        camera.lookAt(0, 0, 0);
+
+        const container = new THREE.Group();
+        scene.add(container);
+        
+        // --- 2D Game of Life Setup ---
+        const gridSize = 30;
+        const cellSize = 1;
+        const gridSpacing = 1.2;
+        const gridCenter = (gridSize - 1) * gridSpacing / 2;
+
+        let currentGrid = new Uint8Array(gridSize * gridSize);
+        let nextGrid = new Uint8Array(gridSize * gridSize);
+
+        // --- Instanced Mesh for performance ---
+        const geometry = new THREE.BoxGeometry(cellSize, cellSize, cellSize);
+        const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 }); // Changed color to white
+        const instancedMesh = new THREE.InstancedMesh(geometry, material, gridSize * gridSize);
+        container.add(instancedMesh);
+        
+        // --- Initial State (Randomized 2D Grid) ---
+        const dummy = new THREE.Object3D();
+        let instanceCount = 0;
+        
+        for (let x = 0; x < gridSize; x++) {
+            for (let y = 0; y < gridSize; y++) {
+                const index = x + y * gridSize;
+                if (Math.random() > 0.7) { // Populate ~30% of cells
+                   currentGrid[index] = 1;
+                }
+            }
+        }
+        
+        function updateMesh() {
+            instanceCount = 0;
+            for (let x = 0; x < gridSize; x++) {
+                for (let y = 0; y < gridSize; y++) {
+                    const index = x + y * gridSize;
+                    if (currentGrid[index] === 1) {
+                        dummy.position.set(
+                            x * gridSpacing - gridCenter,
+                            y * gridSpacing - gridCenter,
+                            0 // Set z-position to 0 for a flat 2D plane
+                        );
+                        dummy.updateMatrix();
+                        instancedMesh.setMatrixAt(instanceCount++, dummy.matrix);
+                    }
+                }
+            }
+            instancedMesh.instanceMatrix.needsUpdate = true;
+            instancedMesh.count = instanceCount;
+        }
+
+        // --- Simulation Logic ---
+        function updateSimulation() {
+            for (let x = 0; x < gridSize; x++) {
+                for (let y = 0; y < gridSize; y++) {
+                    const index = x + y * gridSize;
+                    let neighbors = 0;
+
+                    // Count neighbors (8 directions)
+                    for (let dx = -1; dx <= 1; dx++) {
+                        for (let dy = -1; dy <= 1; dy++) {
+                            if (dx === 0 && dy === 0) continue;
+                            
+                            const nx = (x + dx + gridSize) % gridSize;
+                            const ny = (y + dy + gridSize) % gridSize;
+                            
+                            const neighborIndex = nx + ny * gridSize;
+                            neighbors += currentGrid[neighborIndex];
+                        }
+                    }
+
+                    // Apply classic 2D Game of Life rules (B3/S2,3)
+                    const isAlive = currentGrid[index] === 1;
+                    if (isAlive) { // Cell is alive
+                        if (neighbors < 2 || neighbors > 3) {
+                            nextGrid[index] = 0; // Dies by underpopulation or overpopulation
+                        } else {
+                            nextGrid[index] = 1; // Survives
+                        }
+                    } else { // Cell is dead
+                        if (neighbors === 3) {
+                            nextGrid[index] = 1; // Born
+                        } else {
+                            nextGrid[index] = 0; // Stays dead
+                        }
+                    }
+                }
+            }
+            // Swap grids for the next iteration
+            [currentGrid, nextGrid] = [nextGrid, currentGrid];
+        }
+
+        // --- Mouse Controls for Rotation (disabled for 2D view) ---
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        
+        renderer.domElement.addEventListener('mousedown', (e) => { isDragging = true; });
+        renderer.domElement.addEventListener('mouseup', (e) => { isDragging = false; });
+        // Mouse drag rotation is disabled for a clearer 2D presentation
+
+        // --- Animation Loop ---
+        let lastUpdateTime = 0;
+        const updateInterval = 0.15; // seconds
+
+        function animate(time) {
+            requestAnimationFrame(animate);
+            const elapsedTime = time / 1000;
+            
+            // Auto-rotate for a dynamic effect
+            container.rotation.y += 0.001;
+            container.rotation.x += 0.0005;
+
+            if (elapsedTime - lastUpdateTime > updateInterval) {
+                updateSimulation();
+                updateMesh();
+                lastUpdateTime = elapsedTime;
+            }
+
+            renderer.render(scene, camera);
+        }
+        updateMesh();
+        animate(0);
+
+        // --- Window Resize Handling ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- UI Interaction ---
+        const navLinks = document.querySelectorAll('#main-nav a');
+        const sections = document.querySelectorAll('.content-section');
+
+        function closeAllSections() {
+            sections.forEach(s => s.classList.remove('active'));
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeAllSections();
+                const targetId = link.getAttribute('href');
+                document.querySelector(targetId).classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
