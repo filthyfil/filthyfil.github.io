@@ -1,0 +1,81 @@
+body {
+    font-family: 'VT323', monospace;
+    background-color: #0a0a0a;
+    color: #fafafa;
+    overflow-x: hidden;
+    cursor: crosshair;
+}
+
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    background:
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.4) 0px, rgba(0,0,0,0.4) 1px, transparent 1px, transparent 2px),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0px, rgba(255, 255, 255, 0.05) 1px, transparent 1px, transparent 4px);
+    animation: flicker 0.15s infinite;
+}
+
+.crt-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 4;
+    box-shadow: inset 0 0 120px 60px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes flicker {
+    0% { opacity: 0.95; }
+    50% { opacity: 0.9; }
+    100% { opacity: 0.95; }
+}
+
+.glass-panel {
+    background-color: rgba(10, 10, 20, 0.4);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(200, 200, 255, 0.2);
+    box-shadow: 0 0 20px rgba(100, 100, 255, 0.15);
+}
+
+.content-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.hover\:text-cyan-300:hover {
+    color: #67e8f9;
+}
+
+a {
+    color: #ff55a3;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #67e8f9;
+}
+
+img, video {
+    border: 1px solid rgba(200, 200, 255, 0.2);
+    border-radius: 4px;
+}

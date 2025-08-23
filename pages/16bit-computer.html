@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: 16-bit Computer Implementation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="crt-glow"></div>
+    <div class="crt-overlay"></div>
+
+    <div class="content-container">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl">[PROJECT: 16BIT_COMPUTER_IMPLEMENTATION.LOG]</h1>
+            <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+        </header>
+
+        <main class="glass-panel rounded-lg p-6 sm:p-8 space-y-8">
+            
+            <section>
+                <h2 class="text-2xl mb-2">[THE_LEARNING_JOURNEY_BEGINS]</h2>
+                <p>Around October of 2024, I decided that I wanted to learn computer architecture. For one, I was very interested in how some configuration of switches can eventually become a computer. I also wanted to learn computer architecture such that I was prepared for my computer organization course.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[BUILDING_A_STUDY_GROUP]</h2>
+                <p>So I gathered my friends and did some advertising on campus and got 16 people interested in studying this thing with me. Pretty cool.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[THE_NAND2TETRIS_APPROACH]</h2>
+                <p>I've decided that we would read the NAND2Tetris book, otherwise known as <em>Elements of Computing Systems</em>, and simulate our logic as the main method of troubleshooting. And then we would have weekly labs to just socialize on the material and play around with some electronics.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[WHAT_WE_BUILT]</h2>
+                <p>We made adders, memory like RAM and ROM, an arithmetic logic unit (ALU), a central processing unit (CPU), and then a full computer.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <div class="text-center">
+                        <img src="images/cpu.JPG" alt="CPU Implementation" class="w-full h-32 object-cover rounded mb-2">
+                        <p class="text-sm">CPU</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="images/computer.JPG" alt="Full Computer" class="w-full h-32 object-cover rounded mb-2">
+                        <p class="text-sm">Computer</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="images/ram.png" alt="RAM Implementation" class="w-full h-32 object-cover rounded mb-2">
+                        <p class="text-sm">RAM</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[THE_1BIT_COMPONENT_CHALLENGE]</h2>
+                <p>Fun fact: I decided to redesign the 16-bit computer using 1-bit components, but the lag was so bad I couldn't. This is where the really intricate image comes from. Me!</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[RAM_RANDOM_INITIALIZATION_DISCOVERY]</h2>
+                <p>One of the cool things I discovered from RAM was its possibility of random initialization. Essentially, you can say the switches are imperfect and some turn on before others which is the cause for these random data entries in the RAM.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="text-center">
+                        <img src="images/memoryspecified.png" alt="Memory Specified" class="w-full h-32 object-cover rounded mb-2">
+                        <p class="text-sm">Memory Specified</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="images/memory_nonspecified.png" alt="Memory Non-specified" class="w-full h-32 object-cover rounded mb-2">
+                        <p class="text-sm">Memory Non-specified</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[PART_2_STATUS]</h2>
+                <p>Part 2 of the book, I still need to document. Sorry!</p>
+            </section>
+
+            <div class="text-center mt-8">
+                <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+            </div>
+        </main>
+        
+        <footer class="text-center text-xs text-gray-400 mt-8">
+            <p>&copy; 2025 Filip Jasionek. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script src="background.js"></script>
+</body>
+</html>

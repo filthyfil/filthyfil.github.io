@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Paintings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="crt-glow"></div>
+    <div class="crt-overlay"></div>
+
+    <div class="content-container">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl">[PROJECT: PAINTINGS.DAT]</h1>
+            <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+        </header>
+
+        <main class="glass-panel rounded-lg p-6 sm:p-8 space-y-8">
+            
+            <section>
+                <h2 class="text-2xl mb-2">[PREFACE]</h2>
+                <p>I've always liked art, and I wanted to learn how to paint, so I learned from recreating famous works. Sorry for the bad quality, my phone doesn't have the best camera.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[GALLERY]</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <p class="mb-2">The Cyclops</p>
+                        <img src="images/clops.jpg" alt="The Cyclops" class="w-full object-cover rounded">
+                    </div>
+                    <div>
+                        <p class="mb-2">David and Goliath</p>
+                        <img src="images/david.jpg" alt="David and Goliath" class="w-full object-cover rounded">
+                    </div>
+                    <div>
+                        <p class="mb-2">God</p>
+                        <img src="images/god.jpg" alt="God" class="w-full object-cover rounded">
+                    </div>
+                    <div>
+                        <p class="mb-2">Dog</p>
+                        <img src="images/dog.jpg" alt="Dog" class="w-full object-cover rounded">
+                    </div>
+                    <div>
+                        <p class="mb-2">Angel</p>
+                        <img src="images/angel.jpg" alt="Angel" class="w-full object-cover rounded">
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <p>I have more works, but these are my favorite.</p>
+            </section>
+            <div class="text-center mt-8">
+                <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+            </div>
+        </main>
+        
+        <footer class="text-center text-xs text-gray-400 mt-8">
+            <p>&copy; 2025 Filip Jasionek. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script src="background.js"></script>
+</body>
+</html>

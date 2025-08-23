@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: GPT2 Implementation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="crt-glow"></div>
+    <div class="crt-overlay"></div>
+
+    <div class="content-container">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl">[PROJECT: GPT2_IMPLEMENTATION.LOG]</h1>
+            <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+        </header>
+
+        <main class="glass-panel rounded-lg p-6 sm:p-8 space-y-8">
+            
+            <section class="text-center">
+                <img src="images/gpt2.png" alt="GPT2 Architecture" class="mx-auto mb-6 max-w-full h-auto rounded-lg shadow-lg">
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[THE_POLAND_TRIP_READING_MARATHON]</h2>
+                <p>During my trip to Poland and in between the long drives, I decided to read a book cover to cover on building an LLM from scratch. The book I read, oddly enough, was <em>Build a Large Language Model (From Scratch)</em> by Sebastian Raschka. And I read all those 900 pages in two weeks which I suppose is not that bad.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[IMPLEMENTATION_ON_THE_FLIGHT]</h2>
+                <p>So I read all those pages and on the airplane back, I threw together all the code to make it happen. And it was surprisingly really easy. This is not to boast, but the GPT2 architecture is very simple.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[GATEWAY_TO_LARGER_ARCHITECTURES]</h2>
+                <p>I also had a lightweight model that I had the source code of to experiment with. Most importantly, it was a gateway to larger and more complex architectures and toolings like LangChain, Ollama, larger models like Qwen, DeepSeek, OSS, among others. You can check out my implementation here, if you'd like: <a href="https://github.com/filthyfil/llm" class="text-cyan-300 hover:text-cyan-100 underline" target="_blank">https://github.com/filthyfil/llm</a></p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[EXPERIMENTING_WITH_CHAIN_OF_THOUGHT]</h2>
+                <p>I've experimented with chain of thought and prompt engineering, and you quite easily can see what fails the large language models today, that is what is called brittle task decomposition and a byproduct of chain of thought. More simply, given a long enough sequence of "reasoning" the LLM will eventually make a mistake and that mistake will "fall downstream" and contaminate next reasoning steps.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[THE_LATENCY_ISSUE]</h2>
+                <p>It is also very latent.</p>
+            </section>
+
+            <div class="text-center mt-8">
+                <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+            </div>
+        </main>
+        
+        <footer class="text-center text-xs text-gray-400 mt-8">
+            <p>&copy; 2025 Filip Jasionek. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script src="background.js"></script>
+</body>
+</html>

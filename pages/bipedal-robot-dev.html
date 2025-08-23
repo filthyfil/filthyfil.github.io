@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project: Bipedal Robot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+  <div class="crt-glow"></div>
+  <div class="crt-overlay"></div>
+
+  <div class="content-container">
+      <header class="flex justify-between items-center mb-8">
+          <h1 class="text-3xl">[PROJECT: BIPEDAL_ROBOT.EXE]</h1>
+          <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+      </header>
+
+      <main class="glass-panel rounded-lg p-6 sm:p-8 space-y-8">
+        
+        <section>
+          <h2 class="text-2xl mb-2">[PREFACE]</h2>
+          <p>When I was a kid, I loved Star Wars, especially the droids. Seeing how modern robotics is evolving, I wanted to build something of my own. Inspired by BD-1 from *Star Wars: The Fallen Order*, I began designing a bipedal robot.</p>
+          <img src="images/pasted-image-20240830210833.png" alt="Bipedal Robot Sketch" class="mt-4 mx-auto w-full max-w-md">
+        </section>
+
+        <section>
+          <h2 class="text-2xl mb-2">[CAD_DESIGN]</h2>
+          <p>After several iterations in Fusion360, I finalized the design.</p>
+          <img src="images/pasted-image-20240830210805.png" alt="CAD Model of the Robot" class="mt-4 mx-auto w-full max-w-md">
+        </section>
+
+        <section>
+          <h2 class="text-2xl mb-2">[SIMULATION]</h2>
+          <p>The model was imported into a physics simulation to test its movement and stability.</p>
+          <img src="images/pasted-image-20240830225256.png" alt="Robot Simulation Environment" class="mt-4 mx-auto w-full max-w-md">
+        </section>
+
+        <section>
+			    <h2 class="text-2xl mb-2">[TRAINING]</h2>
+			    <p>The robot's movement was refined using reinforcement learning. After many iterations, it finally took its first steps.</p>
+			    <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+			      <video controls class="w-full"><source src="images/img_2985.mov" type="video/mp4"></video>    
+			      <video controls class="w-full"><source src="images/img_3017.mov" type="video/mp4"></video>
+			      <video controls class="w-full"><source src="images/recorded-867117184707.mov" type="video/mp4"></video>
+			    </div>
+		  </section>
+
+        <section>
+          <h2 class="text-2xl mb-2">[CHALLENGES_&_LESSONS]</h2>
+          <p>Building this robot exposed me to many challenges, from hardware constraints to reinforcement learning quirks. It inspired me to dive deeper into AI and robotics. You will notice the robot was unable to REALLY walk; this was merely the first sign of convergence.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl mb-2">[FUTURE_WORK]</h2>
+          <p>This is just the beginning. I plan to refine the hardware, improve control algorithms, and enhance the walking motion. Unfortunately, this current version is unable to walk in it's physical form. I need motors with a stronger torque, which are surprisingly expensive.</p>
+		      <img src="images/robot_cover.jpg" alt="Robot" class="mt-4 mx-auto w-full max-w-md">
+        </section>
+        <div class="text-center mt-8">
+            <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+        </div>
+      </main>
+      
+      <footer class="text-center text-xs text-gray-400 mt-8">
+        <p>&copy; 2025 Filip Jasionek. All Rights Reserved.</p>
+      </footer>
+  </div>
+
+  <script src="background.js"></script>
+</body>
+</html>
