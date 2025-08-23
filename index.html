@@ -123,10 +123,11 @@
                 <a href="#about" class="hover:text-cyan-300 transition-colors duration-300">[ABOUT]</a>
                 <a href="#projects" class="hover:text-cyan-300 transition-colors duration-300">[PROJECTS]</a>
                 <a href="#contact" class="hover:text-cyan-300 transition-colors duration-300">[CONTACT]</a>
+                <a href="#configs" class="hover:text-cyan-300 transition-colors duration-300">[CONFIGS]</a>
             </nav>
         </header>
 
-        <div class="text-center">
+        <div class="text-center" id="nameSection">
             <h2 class="text-4xl sm:text-6xl font-bold mb-2 text-outline">FILIP JASIONEK</h2>
             <p class="text-lg sm:text-2xl terminal-text text-outline">grid's weird today</p>
         </div>
@@ -166,27 +167,41 @@
         <div class="close-btn" onclick="closeAllSections()">[X]</div>
         <h3 class="text-2xl sm:text-3xl mb-6">[LOAD: ./PROJECTS/*]</h3>
         <h3 class="text-2xl sm:text-3xl mb-6">[please email me for more info! happy to talk]</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
              <div class="project-card glass-panel p-4 rounded-md group">
-                <img src="https://placehold.co/600x400/000000/ff55a3?text=Bipedal+Robot" alt="Bipedal Robot" class="w-full h-40 object-cover rounded mb-2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0a190f/ff55a3?text=Image+Error';">
-                <h4 class="text-lg font-bold">Bipedal Robot</h4>
-                <p class="text-sm">a walking machine, from cad and simulation to reinforcement learning.</p>
+                <a href="pages/bipedal-robot-dev.html">
+                    <img src="pages/images/pasted-image-20240830225256.png" alt="Bipedal Robot" class="w-full h-40 object-cover rounded mb-2">
+                    <h4 class="text-lg font-bold">Bipedal Robot</h4>
+                    <p class="text-sm">A walking machine, from CAD and simulation to reinforcement learning.</p>
+                </a>
             </div>
             <div class="project-card glass-panel p-4 rounded-md group">
-                <img src="http://googleusercontent.com/file_content/2" alt="Compiler Project" class="w-full h-40 object-cover rounded mb-2">
-                <h4 class="text-lg font-bold">Compiler Development</h4>
-                <p class="text-sm">a custom-built compiler for a custom-built 16 bit platform.</p>
+                <a href="pages/llm.html">
+                    <img src="pages/images/gpt2.png" alt="LLM From Scratch" class="w-full h-40 object-cover rounded mb-2">
+                    <h4 class="text-lg font-bold">LLM From Scratch</h4>
+                    <p class="text-sm">A implementation of a large language model.</p>
+                </a>
             </div>
             <div class="project-card glass-panel p-4 rounded-md group">
-                <img src="https://placehold.co/600x400/000000/f2ff00?text=GPT-2" alt="GPT-2 from Scratch" class="w-full h-40 object-cover rounded mb-2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0a190f/f2ff00?text=Image+Error';">
-                <h4 class="text-lg font-bold">GPT-2 From Scratch</h4>
-                <p class="text-sm">a reimplementation of the gpt-2 architecture</p>
+                <a href="pages/paintings.html">
+                    <img src="pages/images/god.jpg" alt="Paintings" class="w-full h-40 object-cover rounded mb-2">
+                    <h4 class="text-lg font-bold">Paintings</h4>
+                    <p class="text-sm">A gallery of my paintings.</p>
+                </a>
             </div>
             <div class="project-card glass-panel p-4 rounded-md group">
-               <img src="https://placehold.co/600x400/000000/00ff41?text=More+Projects" alt="More Projects" class="w-full h-40 object-cover rounded mb-2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0a190f/00ff41?text=Image+Error';">
-                <h4 class="text-lg font-bold">Future Endeavors</h4>
-                <p class="text-sm">and more...</p>
+                <a href="pages/16bit-computer.html">
+                    <img src="pages/images/ram.png" alt="16-bit Computer" class="w-full h-40 object-cover rounded mb-2">
+                    <h4 class="text-lg font-bold">16-bit Computer</h4>
+                    <p class="text-sm">Building a computer from NAND gates to a full system.</p>
+                </a>
             </div>
+             <div class="project-card glass-panel p-4 rounded-md group">
+                <img src="https://placehold.co/600x400/000000/00ff41?text=More+Projects" alt="More Projects" class="w-full h-40 object-cover rounded mb-2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0a190f/00ff41?text=Image+Error';">
+                 <h4 class="text-lg font-bold">Future Endeavors</h4>
+                 <p class="text-sm">and more...</p>
+             </div>
+             
         </div>
     </section>
 
@@ -194,7 +209,52 @@
         <div class="close-btn" onclick="closeAllSections()">[X]</div>
         <h3 class="text-2xl sm:text-3xl mb-4">[ESTABLISH_CONNECTION]</h3>
         <p class="mb-4">Let's build the future, one component at a time.</p>
-        <a href="mailto:email@example.com" class="text-yellow-300 text-lg hover:text-white transition-colors duration-300">[SEND_TRANSMISSION]</a>
+        <a href="mailto:filjasionek@gmail.com" class="text-yellow-300 text-lg hover:text-white transition-colors duration-300">[SEND_TRANSMISSION]</a>
+        <br><br>
+        <a href="https://github.com/filthyfil" target="_blank" class="text-cyan-300 text-lg hover:text-white transition-colors duration-300">[GITHUB]</a>
+    </section>
+
+    <section id="configs" class="content-section glass-panel rounded-lg p-6 sm:p-8">
+        <div class="close-btn" onclick="closeAllSections()">[X]</div>
+        <h3 class="text-2xl sm:text-3xl mb-6">[GAME_OF_LIFE_CONFIGURATIONS]</h3>
+        <p class="mb-6">Select different starting patterns to see how they evolve according to Conway's Game of Life rules.</p>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <button onclick="setGlider()" class="p-4 glass-panel rounded-lg hover:bg-cyan-900/30 transition-colors duration-300 text-center">
+                <h4 class="text-lg font-bold mb-2">[GLIDER]</h4>
+                <p class="text-sm">A spaceship that moves diagonally across the grid</p>
+            </button>
+            
+            <button onclick="setToad()" class="p-4 glass-panel rounded-lg hover:bg-cyan-900/30 transition-colors duration-300 text-center">
+                <h4 class="text-lg font-bold mb-2">[TOAD]</h4>
+                <p class="text-sm">A simple oscillator that toggles between states</p>
+            </button>
+            
+            <button onclick="setPulsar()" class="p-4 glass-panel rounded-lg hover:bg-cyan-900/30 transition-colors duration-300 text-center">
+                <h4 class="text-lg font-bold mb-2">[PULSAR]</h4>
+                <p class="text-sm">A large oscillator with complex behavior</p>
+            </button>
+            
+            <button onclick="setRandom()" class="p-4 glass-panel rounded-lg hover:bg-cyan-900/30 transition-colors duration-300 text-center">
+                <h4 class="text-lg font-bold mb-2">[RANDOM]</h4>
+                <p class="text-sm">Generate a new random pattern</p>
+            </button>
+            
+            <button onclick="setClear()" class="p-4 glass-panel rounded-lg hover:bg-red-900/30 transition-colors duration-300 text-center">
+                <h4 class="text-lg font-bold mb-2">[CLEAR]</h4>
+                <p class="text-sm">Clear the entire grid</p>
+            </button>
+            
+            <button onclick="setPentadecathlon()" class="p-4 glass-panel rounded-lg hover:bg-cyan-900/30 transition-colors duration-300 text-center">
+                <h4 class="text-lg font-bold mb-2">[PENTADECATHLON]</h4>
+                <p class="text-sm">A 15-cell oscillator with interesting phases</p>
+            </button>
+            
+            <button onclick="toggleViewLock()" class="p-6 glass-panel rounded-xl hover:bg-red-900/40 transition-all duration-300 text-center border-2 border-red-400/60 shadow-lg hover:shadow-red-500/25 transform hover:scale-105 col-span-2 md:col-span-3" id="viewLockBtn">
+                <h4 class="text-xl font-bold text-red-300 mb-2">[LOCK_VIEW]</h4>
+                <p class="text-sm text-red-200">Lock the camera view straight on</p>
+            </button>
+        </div>
     </section>
 
     <script>
@@ -228,14 +288,152 @@
         const dummy = new THREE.Object3D();
         let instanceCount = 0;
         
-        for (let x = 0; x < gridSize; x++) {
-            for (let y = 0; y < gridSize; y++) {
-                const index = x + y * gridSize;
-                if (Math.random() > 0.7) { // Populate ~30% of cells
-                   currentGrid[index] = 1;
+        // Initialize with random state
+        function initializeRandom() {
+            for (let x = 0; x < gridSize; x++) {
+                for (let y = 0; y < gridSize; y++) {
+                    const index = x + y * gridSize;
+                    if (Math.random() > 0.7) { // Populate ~30% of cells
+                       currentGrid[index] = 1;
+                    }
                 }
             }
         }
+        
+        // Game of Life configuration functions
+        function setGlider() {
+            // Clear the grid
+            currentGrid.fill(0);
+            // Place a glider in the center
+            const centerX = Math.floor(gridSize / 2);
+            const centerY = Math.floor(gridSize / 2);
+            const glider = [
+                [0, 1, 0],
+                [0, 0, 1],
+                [1, 1, 1]
+            ];
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (glider[i][j]) {
+                        const x = centerX + i - 1;
+                        const y = centerY + j - 1;
+                        if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
+                            currentGrid[x + y * gridSize] = 1;
+                        }
+                    }
+                }
+            }
+            updateMesh();
+        }
+        
+        function setToad() {
+            currentGrid.fill(0);
+            const centerX = Math.floor(gridSize / 2);
+            const centerY = Math.floor(gridSize / 2);
+            // Toad pattern - a simple oscillator
+            const toad = [
+                [0, 1, 1, 1],
+                [1, 1, 1, 0]
+            ];
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (toad[i][j]) {
+                        const x = centerX + j - 2;
+                        const y = centerY + i - 1;
+                        if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
+                            currentGrid[x + y * gridSize] = 1;
+                        }
+                    }
+                }
+            }
+            updateMesh();
+        }
+        
+        function setPulsar() {
+            currentGrid.fill(0);
+            const centerX = Math.floor(gridSize / 2);
+            const centerY = Math.floor(gridSize / 2);
+            // Pulsar pattern
+            const pulsar = [
+                [0,0,1,1,1,0,0,0,1,1,1,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [1,0,0,0,0,1,0,1,0,0,0,0,1],
+                [1,0,0,0,0,1,0,1,0,0,0,0,1],
+                [1,0,0,0,0,1,0,1,0,0,0,0,1],
+                [0,0,1,1,1,0,0,0,1,1,1,0,0],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,1,1,1,0,0,0,1,1,1,0,0],
+                [1,0,0,0,0,1,0,1,0,0,0,0,1],
+                [1,0,0,0,0,1,0,1,0,0,0,0,1],
+                [1,0,0,0,0,1,0,1,0,0,0,0,1],
+                [0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [0,0,1,1,1,0,0,0,1,1,1,0,0]
+            ];
+            
+            for (let i = 0; i < pulsar.length; i++) {
+                for (let j = 0; j < pulsar[i].length; j++) {
+                    if (pulsar[i][j]) {
+                        const x = centerX + j - 6;
+                        const y = centerY + i - 6;
+                        if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
+                            currentGrid[x + y * gridSize] = 1;
+                        }
+                    }
+                }
+            }
+            updateMesh();
+        }
+        
+        function setPentadecathlon() {
+            currentGrid.fill(0);
+            const centerX = Math.floor(gridSize / 2);
+            const centerY = Math.floor(gridSize / 2);
+            // Pentadecathlon pattern
+            const pentadecathlon = [
+                [0,1,0],
+                [1,1,1],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0],
+                [0,1,0]
+            ];
+            
+            for (let i = 0; i < pentadecathlon.length; i++) {
+                for (let j = 0; j < pentadecathlon[i].length; j++) {
+                    if (pentadecathlon[i][j]) {
+                        const x = centerX + j - 1;
+                        const y = centerY + i - 7;
+                        if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
+                            currentGrid[x + y * gridSize] = 1;
+                        }
+                    }
+                }
+            }
+            updateMesh();
+        }
+        
+        function setRandom() {
+            currentGrid.fill(0);
+            initializeRandom();
+            updateMesh();
+        }
+        
+        function setClear() {
+            currentGrid.fill(0);
+            updateMesh();
+        }
+        
+        // Initialize with random state
+        initializeRandom();
         
         function updateMesh() {
             instanceCount = 0;
@@ -301,10 +499,34 @@
         // --- Mouse Controls for Rotation (disabled for 2D view) ---
         let isDragging = false;
         let previousMousePosition = { x: 0, y: 0 };
+        let viewLocked = false;
         
         renderer.domElement.addEventListener('mousedown', (e) => { isDragging = true; });
         renderer.domElement.addEventListener('mouseup', (e) => { isDragging = false; });
         // Mouse drag rotation is disabled for a clearer 2D presentation
+        
+        function toggleViewLock() {
+            viewLocked = !viewLocked;
+            const btn = document.getElementById('viewLockBtn');
+            const nameSection = document.getElementById('nameSection');
+            
+            if (viewLocked) {
+                // Reset to straight-on view when locking
+                container.rotation.x = 0;
+                container.rotation.y = 0;
+                // Hide the name section
+                nameSection.style.opacity = '0';
+                nameSection.style.pointerEvents = 'none';
+                btn.innerHTML = '<h4 class="text-xl font-bold text-green-300 mb-2">[UNLOCK_VIEW]</h4><p class="text-sm text-green-200">Unlock camera rotation</p>';
+                btn.className = 'p-6 glass-panel rounded-xl hover:bg-green-900/40 transition-all duration-300 text-center border-2 border-green-400/60 shadow-lg hover:shadow-green-500/25 transform hover:scale-105 col-span-2 md:col-span-3';
+            } else {
+                // Show the name section
+                nameSection.style.opacity = '1';
+                nameSection.style.pointerEvents = 'auto';
+                btn.innerHTML = '<h4 class="text-xl font-bold text-red-300 mb-2">[LOCK_VIEW]</h4><p class="text-sm text-red-200">Lock the camera view straight on</p>';
+                btn.className = 'p-6 glass-panel rounded-xl hover:bg-red-900/40 transition-all duration-300 text-center border-2 border-red-400/60 shadow-lg hover:shadow-red-500/25 transform hover:scale-105 col-span-2 md:col-span-3';
+            }
+        }
 
         // --- Animation Loop ---
         let lastUpdateTime = 0;
@@ -314,9 +536,11 @@
             requestAnimationFrame(animate);
             const elapsedTime = time / 1000;
             
-            // Auto-rotate for a dynamic effect
-            container.rotation.y += 0.001;
-            container.rotation.x += 0.0005;
+            // Auto-rotate for a dynamic effect (only when view is not locked)
+            if (!viewLocked) {
+                container.rotation.y += 0.001;
+                container.rotation.x += 0.0005;
+            }
 
             if (elapsedTime - lastUpdateTime > updateInterval) {
                 updateSimulation();
