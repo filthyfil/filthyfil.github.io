@@ -270,7 +270,7 @@
         scene.add(container);
         
         // --- 2D Game of Life Setup ---
-        const gridSize = 30;
+        const gridSize = 40;
         const cellSize = 1;
         const gridSpacing = 1.2;
         const gridCenter = (gridSize - 1) * gridSpacing / 2;
@@ -391,20 +391,21 @@
             // Pentadecathlon pattern
             const pentadecathlon = [
                 [0,1,0],
+                [1,0,1],
+                [0,0,0],
+                [0,0,0],
+                [1,1,1],
                 [1,1,1],
                 [0,1,0],
+                [0,0,0],
+                [0,0,0],
                 [0,1,0],
-                [0,1,0],
-                [0,1,0],
-                [0,1,0],
-                [0,1,0],
-                [0,1,0],
-                [0,1,0],
-                [0,1,0],
-                [0,1,0],
-                [0,1,0],
-                [0,1,0],
-                [0,1,0]
+                [1,1,1],
+                [1,1,1],
+                [0,0,0],
+                [0,0,0],
+                [1,0,1],
+                [1,1,1]
             ];
             
             for (let i = 0; i < pentadecathlon.length; i++) {
