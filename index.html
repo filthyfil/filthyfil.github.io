@@ -245,9 +245,9 @@
                 <p class="text-sm">Clear the entire grid</p>
             </button>
             
-            <button onclick="setPentadecathlon()" class="p-4 glass-panel rounded-lg hover:bg-cyan-900/30 transition-colors duration-300 text-center">
-                <h4 class="text-lg font-bold mb-2">[PENTADECATHLON]</h4>
-                <p class="text-sm">A 15-cell oscillator with interesting phases</p>
+            <button onclick="setWheel()" class="p-4 glass-panel rounded-lg hover:bg-cyan-900/30 transition-colors duration-300 text-center">
+                <h4 class="text-lg font-bold mb-2">[WHEEL]</h4>
+                <p class="text-sm">An oscillator with interesting phases</p>
             </button>
             
             <button onclick="toggleViewLock()" class="p-6 glass-panel rounded-xl hover:bg-red-900/40 transition-all duration-300 text-center border-2 border-red-400/60 shadow-lg hover:shadow-red-500/25 transform hover:scale-105 col-span-2 md:col-span-3" id="viewLockBtn">
@@ -384,31 +384,37 @@
             updateMesh();
         }
         
-        function setPentadecathlon() {
+        function setWheel() {
             currentGrid.fill(0);
             const centerX = Math.floor(gridSize / 2);
             const centerY = Math.floor(gridSize / 2);
-            // Pentadecathlon pattern
-            const pentadecathlon = [
-              [0,0,1,1,1,1,1,1,0,0],
-              [1,0,0,1,0,0,0,1,0,1],
-              [0,0,1,1,1,1,1,1,0,0],
+        
+            const wheel = [
+                [0,0,1,1,0,0,0],
+                [0,0,1,1,0,0,0],
+                [1,1,0,0,1,1,0],
+                [1,0,0,1,0,1,0],
+                [1,1,0,0,1,1,0],
+                [0,0,1,1,0,0,0],
+                [0,0,1,1,0,0,0],
             ];
-
-            
-            for (let i = 0; i < pentadecathlon.length; i++) {
-                for (let j = 0; j < pentadecathlon[i].length; j++) {
-                    if (pentadecathlon[i][j]) {
-                        const x = centerX + j - 1;
-                        const y = centerY + i - 7;
+        
+            for (let i = 0; i < wheel.length; i++) {
+                for (let j = 0; j < wheel[i].length; j++) {
+                    if (wheel[i][j]) {
+                        const x = centerX + j - Math.floor(wheel[0].length / 2);
+                        const y = centerY + i - Math.floor(wheel.length / 2);
                         if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
                             currentGrid[x + y * gridSize] = 1;
                         }
                     }
                 }
             }
+        
             updateMesh();
         }
+    
+
         
         function setRandom() {
             currentGrid.fill(0);
