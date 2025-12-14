@@ -55,7 +55,7 @@
         .glass-panel {
             background-color: rgba(10, 10, 20, 0.4);
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(200, 200, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 0 20px rgba(100, 100, 255, 0.15);
             transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
         }
@@ -196,11 +196,25 @@
                     <p class="text-sm">Building a computer from NAND gates to a full system.</p>
                 </a>
             </div>
-             <div class="project-card glass-panel p-4 rounded-md group">
-                <img src="https://placehold.co/600x400/000000/00ff41?text=More+Projects" alt="More Projects" class="w-full h-40 object-cover rounded mb-2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0a190f/00ff41?text=Image+Error';">
-                 <h4 class="text-lg font-bold">Future Endeavors</h4>
-                 <p class="text-sm">and more...</p>
-             </div>
+            <div class="project-card glass-panel p-4 rounded-md group">
+                <a href="pages/compiler.html">
+                    <img src="pages/images/pong.png" alt="Jack Compiler" class="w-full h-40 object-cover rounded mb-2">
+                    <h4 class="text-lg font-bold">Jack Compiler</h4>
+                    <p class="text-sm">A jacklang compiler that targets the VM.</p>
+                </a>
+            </div>
+            <div class="project-card glass-panel p-4 rounded-md group">
+                <a href="pages/mandelbrot.html">
+                    <img src="pages/images/fractal.JPG" alt="Mandelbrot Render Engine" class="w-full h-40 object-cover rounded mb-2">
+                    <h4 class="text-lg font-bold">Mandelbrot Render Engine</h4>
+                    <p class="text-sm">An FPGA implementation of a Mandelbrot rendering engine.</p>
+                </a>
+            </div>
+            <div class="project-card glass-panel p-4 rounded-md group">
+            <img src="https://placehold.co/600x400/000000/00ff41?text=More+Projects" alt="More Projects" class="w-full h-40 object-cover rounded mb-2" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0a190f/00ff41?text=Image+Error';">
+                <h4 class="text-lg font-bold">Future Endeavors</h4>
+                <p class="text-sm">and more...</p>
+            </div>
              
         </div>
     </section>
@@ -280,7 +294,7 @@
 
         // --- Instanced Mesh for performance ---
         const geometry = new THREE.BoxGeometry(cellSize, cellSize, cellSize);
-        const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 }); // Changed color to white
+        const material = new THREE.MeshBasicMaterial({ color: 0x777777, transparent: true, opacity: 0.8 }); // Changed color to white
         const instancedMesh = new THREE.InstancedMesh(geometry, material, gridSize * gridSize);
         container.add(instancedMesh);
         
@@ -499,7 +513,7 @@
         // --- Mouse Controls for Rotation (disabled for 2D view) ---
         let isDragging = false;
         let previousMousePosition = { x: 0, y: 0 };
-        let viewLocked = false;
+        let viewLocked = true;
         
         renderer.domElement.addEventListener('mousedown', (e) => { isDragging = true; });
         renderer.domElement.addEventListener('mouseup', (e) => { isDragging = false; });
@@ -530,7 +544,7 @@
 
         // --- Animation Loop ---
         let lastUpdateTime = 0;
-        const updateInterval = 0.15; // seconds
+        const updateInterval = 0.33; // seconds
 
         function animate(time) {
             requestAnimationFrame(animate);
@@ -577,5 +591,7 @@
             });
         });
     </script>
+
+    
 </body>
 </html>

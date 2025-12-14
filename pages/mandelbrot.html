@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: FPGA Mandelbrot Renderer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="crt-glow"></div>
+    <div class="crt-overlay"></div>
+
+    <div class="content-container">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl">[PROJECT: FPGA_MANDELBROT_RENDERER.LOG]</h1>
+            <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+        </header>
+
+        <main class="glass-panel rounded-lg p-6 sm:p-8 space-y-8">
+
+            <section>
+                <h2 class="text-2xl mb-2">[MOTIVATION_AND_ORIGIN]</h2>
+                <p>I like art, so I am naturally drawn to beautiful things. It is fairly standard in an FPGA class to program an FPGA to render the Mandelbrot set as a lab, and so I decided I would give it a shot too. At first I was a bit unsure where to start, but after enough thought I thought I would implement it as straight forward as I thought.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[OUTPUT_SAMPLE]</h2>
+                <div class="grid grid-cols-1 gap-4 mt-4">
+                    <div class="text-center">
+                        <img src="images/fractal.JPG" class="w-full h-64 md:h-80 lg:h-[26rem] object-cover rounded mb-2">
+                        <p class="text-sm">Rendered image of a bulb.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[HIGH_LEVEL_ARCHITECTURE]</h2>
+                <p>The general architecture is a FSMD with a pixel compute engine, a dual-port framebuffer, a module for VGA timing and scanout, and a navigation and zoom (I/O) unit. The design uses Q16.48 fixed-point arithmetic.</p>
+                <p>The architecture explicitly separates compute time from display time, which gives the compute engine all the time it needs to calculate values. This allows for arbitrarily complex depth, or supersampling techniques to be utilized without worry about timing.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[FRAMEBUFFER_AND_TIMING_DECOUPLING]</h2>
+                <p>This separation is achieved using a dual-port framebuffer. The top module maps the first pixel (x=0, y=0), corresponding to the initial (re, im), to RAM[0]. Each frame update does not care if computation is not done yet. Fetching pixel values is as simple as fetching the value from RAM[x].</p>
+                <p>The memory acts as a progressive framebuffer, allowing partial image display during computation while granting infinite time allowance on the compute end.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[FSM_EXECUTION_MODEL]</h2>
+                <p>The FSM enforces strict single-pixel ownership, although kernels and parallelization could be easily achieved:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Only one Mandelbrot iteration engine is active at any time.</li>
+                    <li>Each pixel computation runs to completion before advancing.</li>
+                </ul>
+                <p class="mt-2">Pixels are traversed in row-major order:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>compute_x increments across the row</li>
+                    <li>compute_y increments across the column</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[COORDINATE_MAPPING]</h2>
+                <p>Each pixel (x, y) maps to a complex coordinate via:</p>
+                <pre class="bg-black/40 p-4 rounded text-sm mt-2">
+re = x_start + x * step
+im = y_start + y * step
+                </pre>
+                <p class="mt-2">Where x_start, y_start, and step are initialized in HDL and maintained incrementally in registers to avoid recomputation.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[FSM_STATE_DEFINITION]</h2>
+                <p>The FSM operates as follows:</p>
+                <div class="mt-4 flex">
+                    <div class="overflow-x-auto">
+                        <table class="table-auto text-left text-sm mx-auto">
+                            <thead>
+                                <tr class="border-b border-cyan-500/30">
+                                    <th class="py-2 px-4 text">State</th>
+                                    <th class="py-2 px-4 text">Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-1 px-4 text-center">idle</td>
+                                    <td class="py-1 px-4 text-center">Reset and initialize coordinates</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-1 px-4 text-center">write</td>
+                                    <td class="py-1 px-4 text-center">Launch pixel computation and wait</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-1 px-4 text-center">done</td>
+                                    <td class="py-1 px-4 text-center">Commit result to memory</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-1 px-4 text-center">jmp_x</td>
+                                    <td class="py-1 px-4 text-center">Advance to next pixel in row</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-1 px-4 text-center">jmp_y</td>
+                                    <td class="py-1 px-4 text-center">Advance to next row</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="mt-4">This is a strict request–acknowledge handshake with the pixel engine.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[PIXEL_ENGINE_DECOUPLING]</h2>
+                <p>The pixel module is treated as a black-box iterative accelerator. It accepts fixed-point (re, im), and performs the quadratic map z ↦ z² + c. A register tracks the iteration count until escape or a maximum iteration count of 1000 is reached.</p>
+                <p>An (re, im) pair escapes if |z|² &gt; 4. Upon completion, the module asserts a finished flag and outputs an 8-bit value representing how quickly the point diverges.</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>The FSMD is agnostic to pixel latency</li>
+                    <li>Iteration depth does not affect control logic</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[EXTENSIBILITY_IMPLICATIONS]</h2>
+                <p>This design enables:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Easy substitution of improved pixel engines</li>
+                    <li>Alternative compute techniques</li>
+                    <li>Advanced rendering techniques such as supersampling</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[MEMORY_ARCHITECTURE]</h2>
+                <p>An 8-bit wide dual-port RAM with a 17-bit address space is used, matching the 320x240 framebuffer resolution.</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Port A (write): FSMD writes one pixel per completion</li>
+                    <li>Port B (read): VGA scans memory</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[VGA_SCANOUT_PROPERTIES]</h2>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>No read-modify-write hazards</li>
+                    <li>No need for frame locking</li>
+                    <li>Display always shows the most recent completed data</li>
+                </ul>
+                <p class="mt-2">The framebuffer resolution (320x240) is lower than the VGA output resolution (640x480). This is something to note.</p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[ZOOM_AND_NAVIGATION_MODEL]</h2>
+                <p>Zooming is handled as a coordinate-space transformation, not a framebuffer operation: it computes new step values by logical shift (effective 2x zoom). New frame is zoom-about-a-point. The reticle defines the zoom focal point</p>
+                <p class="mt-2">Pressing zoom_btn forces FSM reset and recomputation.</p>
+            </section>
+
+            <div class="text-center mt-8">
+                <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+            </div>
+        </main>
+
+        <footer class="text-center text-xs text-gray-400 mt-8">
+            <p>&copy; 2025 Filip Jasionek. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script src="background.js"></script>
+</body>
+</html>

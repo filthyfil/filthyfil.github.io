@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Hack Platform Toolchain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="crt-glow"></div>
+    <div class="crt-overlay"></div>
+
+    <div class="content-container">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl">[PROJECT: HACK_PLATFORM_TOOLCHAIN.LOG]</h1>
+            <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+        </header>
+
+        <main class="glass-panel rounded-lg p-6 sm:p-8 space-y-8">
+
+            <section>
+    <h2 class="text-2xl mb-2">[PROJECT_SCOPE_AND_INTENT]</h2>
+    <p>
+        This project is a complete, end-to-end implementation of the Hack computing platform from
+        <em>The Elements of Computing Systems (Nand2Tetris)</em>. It includes a Jack compiler,
+        a stack-based virtual machine translator, a Hack assembler, and a working operating system
+        implemented in Jack.
+    </p>
+    <p class="mt-2">
+        It was very enjoyable to implement this compiler. More work can be done on the VM translator, since many
+        non-trivial programs do not fit in the Hack computer&#39;s ROM without optimization. Regardless, I was able
+        to compile and play Pong successfully in the VM Emulator, which was very fun.
+    </p>
+    <div class="grid grid-cols-1 gap-4 mt-4">
+        <div class="text-center">
+            <img src="images/pong.png" class="w-full h-64 md:h-80 lg:h-[26rem] object-cover rounded mb-2" alt="Pong running on the Hack VM Emulator">
+            <p class="text-sm">Pong running in the VM Emulator.</p>
+        </div>
+    </div>
+    <p class="mt-2">
+        The toolchain translates a high-level, Java-like language into executable 16-bit Hack machine
+        code, exposing every layer of the compilation and execution stack.
+    </p>
+</section>
+
+
+            <section>
+                <h2 class="text-2xl mb-2">[COMPILATION_PIPELINE]</h2>
+                <pre class="bg-black/40 p-4 rounded text-sm mt-2">
+source.jack
+  → Jack compiler
+  → VM code (.vm)
+  → VM translator
+  → Hack assembly (.asm)
+  → Assembler
+  → Hack binary (.hack)
+                </pre>
+                <p class="mt-2">
+                    Each stage is implemented independently and composed via a unified build script, allowing
+                    inspection and testing at every intermediate representation.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[JACK_LANGUAGE_CHARACTERISTICS]</h2>
+                <p>
+                    Jack is a small, Java-like language designed to be simple but expressive enough to support
+                    structured programming, objects, methods, and arrays. Its grammar is almost LL(1), with
+                    limited ambiguity around identifier-led expressions and subroutine calls.
+                </p>
+                <p class="mt-2">
+                    Instead of introducing token buffering or backtracking, the compiler resolves these cases by
+                    temporarily storing discriminating values during parsing, preserving a deterministic,
+                    single-pass design.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[COMPILER_ARCHITECTURE]</h2>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>The tokenizer converts Jack source into a stream of lexical tokens</li>
+                    <li>A recursive-descent parser driven directly by the Jack grammar</li>
+                    <li>Integrated semantic analysis via symbol tables</li>
+                    <li>Optional XML emitter for debugging the parser</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[SYMBOL_TABLE_AND_SCOPES]</h2>
+                <p>
+                    The compiler maintains two symbol tables: one for class scope and one for subroutine scope.
+                    Identifiers are tracked with their name, type, kind, and index.
+                </p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Class scope: static, field</li>
+                    <li>Subroutine scope: argument, local</li>
+                </ul>
+                <p class="mt-2">
+                    These map directly onto VM memory segments, enabling straightforward address resolution
+                    during code generation.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[SUBROUTINE_AND_OBJECT_MODEL]</h2>
+                <p>
+                    Jack supports functions, methods, and constructors. Each subroutine type produces a
+                    different prologue in VM code.
+                </p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Methods initialize <code>this</code> via argument 0</li>
+                    <li>Constructors allocate memory proportional to field count</li>
+                    <li>Functions operate without implicit object context</li>
+                </ul>
+                <p class="mt-2">
+                    This explicitly models objects and heap allocation on a platform with no native support
+                    for either.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[EXPRESSION_AND_CONTROL_FLOW_LOWERING]</h2>
+                <p>
+                    All expressions are evaluated left-to-right using the VM stack. High-level control flow
+                    constructs are lowered into conditional branches and labels.
+                </p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li><code>if</code> / <code>else</code> compiled via conditional jumps</li>
+                    <li><code>while</code> compiled as labeled loops</li>
+                    <li>Arithmetic mapped directly to VM or OS routines</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[VM_TRANSLATOR_AND_CONSTRAINTS]</h2>
+                <p>
+                    The VM translator converts stack-based VM code into Hack assembly. The current implementation
+                    follows the textbook implementation which means it sacrifices performance for clarity's sake.
+                </p>
+                <p class="mt-2">
+                    Large programs such as Pong can exceed the Hack RAM32K limit without trimming. A tooling
+                    pass exists to remove unreachable assembly, but is weird. Further VM-level optimizations are an
+                    identified area for future work.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[BUILD_SYSTEM_AND_WORKFLOW]</h2>
+                <p>
+                    A unified build script automates the full pipeline from Jack source to Hack binary. The
+                    system supports directory-based compilation, optional OS inclusion, and rapid iteration
+                    via a top-level <code>Main.jack</code> file.
+                </p>
+                <p class="mt-2">
+                    Optional XML outputs expose tokenizer and parse-tree state for debugging and educational
+                    inspection.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[DESIGN_PHILOSOPHY]</h2>
+                <p>
+                    This project intends for a clear textbook style implementation. Every runtime mechanism—function
+                    calls, object layout, memory allocation, control flow—is made explicit in generated code.
+                </p>
+                <p class="mt-2">
+                    The result is a compact but complete computing stack that demonstrates how high-level
+                    language constructs are systematically reduced to machine-executable form under strict
+                    hardware constraints.
+                </p>
+            </section>
+
+            <div class="text-center mt-8">
+                <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+            </div>
+        </main>
+
+        <footer class="text-center text-xs text-gray-400 mt-8">
+            <p>&copy; 2025 Filip Jasionek. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script src="background.js"></script>
+</body>
+</html>
