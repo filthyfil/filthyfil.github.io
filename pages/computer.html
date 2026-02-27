@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Computer CLI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="crt-glow"></div>
+    <div class="crt-overlay"></div>
+
+    <div class="content-container">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl">[PROJECT: COMPUTER.CLI]</h1>
+            <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+        </header>
+
+        <main class="glass-panel rounded-lg p-6 sm:p-8 space-y-8">
+
+            <section>
+                <h2 class="text-2xl mb-2">[WHAT'S_THIS?]</h2>
+                <p>
+                    <strong>Computer</strong> is a personal command-line assistant that lets you run Python code, evaluate
+                    mathematical expressions, and interact with a small set of tools via natural language prompts.
+                    Think of it like a calculator and tiny coding environment combined into a single CLI utility.
+                </p>
+
+                <div class="grid grid-cols-1 gap-4 mt-4">
+                    <div class="text-center">
+                        <img src="images/screen01.jpg" class="w-full h-64 md:h-80 lg:h-[26rem] object-cover rounded mb-2" alt="Computer CLI screenshot">
+                        <p class="text-sm">Screenshot of the Computer CLI interacting with tools and running Python.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[FEATURES]</h2>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Evaluates math expressions (usually using sympy)</li>
+                    <li>Execute arbitrary Python one-liners from the terminal</li>
+                    <li>Sandboxed-ish filesystem semantics — writes limited to a sandbox directory</li>
+                    <li>Safety checks for shell and file-write operations implemented in a simple linter</li>
+                    <li>Supports a small set of tools (Read, Write, Bash, Confusion) for controlled interactions</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[MOTIVATION]</h2>
+                <p>
+                    This project began as an experiment inspired by the CodeCrafters challenge and the desire to
+                    build a system that composes small programmatic steps from natural language prompts. Instead of
+                    having the model directly answer queries, the system constructs and executes code so results are
+                    traceable and reproducible.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[INTERNALS]</h2>
+                <p>
+                    The core mechanics are straightforward: the CLI accepts a natural language prompt, the agent
+                    constructs Python code (or shell commands), performs safety checks, and executes the chosen tool.
+                    The main coordination logic is in <code>main.py</code> and the linter lives in <code>linter.py</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[SETUP]</h2>
+                <p>
+                    This project can be installed as a CLI tool using <code>uv</code>. From the project root (where
+                    <code>pyproject.toml</code> lives), run:
+                </p>
+                <pre class="bg-black/40 p-4 rounded text-sm mt-2">uv tool install --editable .</pre>
+                <p class="mt-2">
+                    The project uses Groq or Ollama for inference — ensure you have <code>GROQ_API_KEY</code> or
+                    <code>OLLAMA_API_KEY</code> set in your environment if you plan to run the full system.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[USAGE]</h2>
+                <p class="mt-2">
+                    Run directly with Python via <code>uv</code>:
+                </p>
+                <pre class="bg-black/40 p-4 rounded text-sm mt-2">uv run /&lt;PathTo&gt;/app/main.py &lt;your_prompt_here&gt;</pre>
+                <p class="mt-2">
+                    Or, if installed as a CLI tool, invoke the program with:
+                </p>
+                <pre class="bg-black/40 p-4 rounded text-sm mt-2">computer &lt;your_prompt_here&gt;</pre>
+            </section>
+
+            <section>
+                <h2 class="text-2xl mb-2">[EXAMPLES]</h2>
+                <pre class="bg-black/40 p-4 rounded text-sm mt-2">
+computer what is 1+1
+computer whats the integral of x^3
+computer does 1=3?
+                </pre>
+                <p class="mt-2">
+                    Typical interaction: the system will construct a small Python snippet or shell command, run it
+                    in a sandboxed environment, and surface the computed result along with the executed tool call.
+                </p>
+            </section>
+
+            <div class="text-center mt-8">
+                <a href="../index.html#projects" class="text-lg hover:text-cyan-300 transition-colors duration-300">[RETURN_TO_GRID]</a>
+            </div>
+        </main>
+
+        <footer class="text-center text-xs text-gray-400 mt-8">
+            <p>&copy; 2025 Filip Jasionek. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script src="background.js"></script>
+</body>
+</html>
